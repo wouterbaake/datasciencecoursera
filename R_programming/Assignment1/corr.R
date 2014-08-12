@@ -11,12 +11,11 @@ corr <- function(directory, threshold = 0) {
   ## Return a numeric vector of correlations
   files<-list.files(directory,full.names = TRUE)
   cases<-complete(directory)
-  selected_cases<-cases[cases[,"nobs"]>threshold,"id"]
+  selected_cases<-cases[cases[,"nobs"]>=threshold,"id"]
   output<-vector()
   for (i in selected_cases){
     data<-read.csv(files[i])
-    output<-c(output,cor(data[,"nitrate"],data[,"sulfate"],use = "complete.obs",method = "pearson"))
+    output<-c(output,cor(data[,"nitrate"],data[,"sulfate"],use = "pairwise.complete.obs",method = "pearson"))
   }
-  if (length(output)==0) output<-0
   output
 }
